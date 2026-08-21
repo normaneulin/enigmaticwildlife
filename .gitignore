@@ -17,6 +17,8 @@
 /.next/
 /out/
 
+# context
+/.context/
 # production
 /build
 

@@ -1,0 +1,14 @@
+id: pillar-1
+order: 1
+name: Advocacy for Underappreciated Wildlife & Habitats
+short_name: Underappreciated Wildlife
+# One sentence. Used by <PillarSummaryCard> on Home — keep it to a single line.
+short_description: >-
+  Giving a mainstream voice to enigmatic and non-charismatic species that are
+  misunderstood, feared, or overlooked — and to the habitats that hold them.
+# Full paragraphs for /pillars/pillar-1. Markdown.
+# TODO: supply the full description — the design plan lists the pillar names but
+# not their long-form text.
+long_description: ""
+icon: /images/pillars/pillar-1.svg
+color_accent: "#1E3D0A"

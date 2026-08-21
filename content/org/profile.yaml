@@ -1,0 +1,145 @@
+# Singleton: the About Us content. Everything here is canonical — no page may
+# retype any of it. See ENWILD_WEBSITE_ARCHITECTURE.md §3.2.
+
+definition: >-
+  EnWild is a volunteer-based, youth-led advocacy group composed of young
+  scientists, artists, students, conservationists, and citizen scientists
+  created to amplify the call for participatory conservation for enigmatic and
+  non-charismatic species and their habitats.
+
+vision: >-
+  A champion in youth-led, participatory conservation for underappreciated
+  species and their habitats.
+
+mission: >-
+  To empower youth leadership in participatory conservation, fostering
+  collaborative advocacies and sustainable solutions that protect and conserve
+  enigmatic and non-charismatic species and habitats, and shaping conservation
+  futures where every species and voice matters.
+
+advocacy_statement: >-
+  EnWild promotes youth leadership in conservation, making young people
+  champions for the appreciation, protection, and conservation of enigmatic and
+  non-charismatic species and their habitats. Through science communication and
+  community-school engagement, the process becomes participatory, ensuring that
+  biodiversity conservation extends beyond the popular and iconic species and
+  involves everyone in stewardship.
+
+founding_date: 2025-02-12
+
+founders:
+  - name: Romnick T. Taladro
+    title: Teacher-turned-conservationist
+  - name: Kenneth P. Aron
+    title: Biologist
+
+# Rich text (Markdown). Rendered ONLY on /about — Home gets the short
+# boilerplate teaser instead. Migrated verbatim from the Canva site.
+history: |
+  On February 12, 2025, the Alliance for the Conservation of Enigmatic Wildlife
+  (EnWild) was founded by Romnick T. Taladro, a teacher-turned-conservationist,
+  and Kenneth P. Aron, a biologist. The organization began as a voice for
+  diplopods, or millipedes, which are often feared and killed due to
+  misinformation. Unlike charismatic species, enigmatic and non-charismatic
+  wildlife receive little attention and are often neglected in mainstream
+  conservation efforts.
+
+  We soon realized that our advocacy must go beyond millipedes to encompass all
+  enigmatic and non-charismatic species. As a youth-led advocacy group, we
+  believe youth play a vital role in participatory conservation, especially in
+  spreading science-based and culturally rooted information to raise awareness
+  and deepen appreciation for rarely seen, elusive species. Our advocacy is
+  grounded in the principle that conservation begins with awareness and
+  appreciation: we cannot protect what we do not know or appreciate. These
+  species must be recognized for their significance and the unseen roles they
+  play in native ecosystems.
+
+  EnWild was created to give a mainstream voice to underappreciated species that
+  are often misunderstood, feared, or harmed due to misinformation and a lack of
+  awareness. We called upon young advocates whose passion and commitment help
+  overlooked species gain the appreciation and conservation efforts they deserve,
+  rather than being neglected because of their appearance or elusiveness. Many
+  answered the call, and together we built the alliance out of volunteerism and
+  love for the environment.
+
+  Our member-advocates come from across the Philippines: Luzon, Visayas, and
+  Mindanao. They include volunteer biologists, entomologists, veterinarians,
+  arachnologists, marine scientists, students, citizen scientists, environmental
+  artists, teachers, and more, all united under one mission: to champion
+  conservation for enigmatic and non-charismatic species and their habitats.
+
+  As part of our journey, we have engaged in meaningful youth conversations and
+  leadership initiatives, incorporating environmental advocacies that inspire
+  more young people to take part and become voices for nature. We also
+  collaborate with other youth- and community-led conservation initiatives to
+  strengthen participatory environmental action.
+
+  Each of us can make a positive difference for nature and wildlife. As youth, we
+  have the power to expand the ripple of participatory conservation, making it
+  known to as many people as possible, especially within communities. Together,
+  we can spark meaningful conversations that raise awareness and deepen
+  knowledge. We invite everyone to contribute experiences, images, or insights
+  about wildlife and environmental advocacies. Let us build stronger, inclusive
+  connections with nature and communities. Together, we will champion
+  conservation for overlooked species and their habitats.
+
+# OPEN QUESTION (architecture doc §8.3): the Canva Vision & Mission page carries
+# Filipino and Hiligaynon translations. Decide whether to keep them live. Left
+# empty rather than deleted so the shape is ready if the answer is "keep".
+history_translations:
+  fil: ""
+  hil: ""
+
+# Founder quote shown on Home via <QuoteBlock>. TODO: confirm exact wording and
+# attribution with the Media & Communications Committee.
+founder_quote:
+  text: ""
+  attribution: ""
+
+# §3.6 — the three fixed-length org descriptions from the Brand Identity Guide.
+# Referenced by id; never retyped into a page.
+# TODO: paste the exact ~35 / ~70 / ~100 word versions from the brand guide PDF.
+boilerplates:
+  short: ""
+  medium: ""
+  long: ""
+
+# Framing copy for /pillars — the shared intro and closing paragraphs that wrap
+# the three pillar records. Migrated verbatim from the design plan.
+pillars_intro: >-
+  EnWild is a youth-led movement powered by volunteerism. It is built on three
+  pillars that provide both foundation and direction. These pillars ensure that
+  advocacy is not only about protecting biodiversity but also about empowering
+  youth, respecting cultural practices, and amplifying unheard voices.
+
+pillars_outro: >-
+  Together, these three pillars establish a strong foundation for participatory
+  conservation that is responsive to human diversity and culture-sensitive. By
+  uniting youth leadership, community collaboration, and advocacy for overlooked
+  species and habitats, they ensure conservation is locally led, equitable, and
+  inclusive. This integrated approach makes advocacy sustainable, socially just,
+  and respectful of diverse identities and traditions.
+
+programs_intro: >-
+  This section highlights EnWild's core initiatives and collaborations, aligned
+  with its commitment to participatory conservation. These programs transform
+  advocacy into concrete movement by uniting campaigns, partnerships, and
+  community-school engagement to ensure conservation is inclusive,
+  culture-sensitive, and sustainable. Some may be simple or small, but they
+  create big impacts, showing that even modest actions can drive meaningful
+  change for underappreciated species, habitats, and communities.
+
+members_intro: >-
+  The Members Section introduces the individuals who form the heart of EnWild. It
+  highlights the diverse backgrounds, skills, and commitments of youth and
+  volunteers who share a common passion for conservation.
+
+resources_intro: >-
+  EnWild's Learning Resource Materials are organized into two sections that
+  support both organizational development and conservation and advocacy.
+  Together, they strengthen the movement's identity and guide its efforts,
+  ensuring that initiatives remain consistent, inclusive, and impactful.
+
+updates_intro: >-
+  Stories, articles, and campaigns from across the alliance, organized by the
+  three EnWild pillars.

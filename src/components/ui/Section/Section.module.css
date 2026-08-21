@@ -1,0 +1,31 @@
+.section {
+  padding: clamp(48px, 7vw, 88px) 0;
+  /* Keeps #history and friends clear of the fixed header. */
+  scroll-margin-top: var(--header-height-scrolled);
+}
+
+.section[data-tone="surface"] {
+  background: var(--color-surface);
+}
+
+.inner {
+  max-width: var(--container-max);
+  margin: 0 auto;
+  padding: 0 var(--container-pad);
+}
+
+.title {
+  margin-bottom: 16px;
+}
+
+.intro {
+  max-width: 68ch;
+  margin-bottom: 32px;
+  font-size: clamp(15px, 1.5vw, 17px);
+  line-height: 1.7;
+  color: var(--color-muted);
+}
+
+.intro:last-child {
+  margin-bottom: 0;
+}

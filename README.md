@@ -1,36 +1,80 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# EnWild website
 
-## Getting Started
+Official site for the **Alliance for the Conservation of Enigmatic Wildlife**.
 
-First, run the development server:
+> Every Species Matters. Every Voice Counts.
+
+Next.js 16 (App Router) + CSS Modules, with Git-based content management via
+Sveltia CMS.
+
+## Getting started
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open <http://localhost:3000>. To edit content through the CMS UI, also run
+`npx @sveltia/cms-proxy-server` in a second terminal and open
+<http://localhost:3000/admin> — see [docs/CMS.md](docs/CMS.md).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## The one idea to understand
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Content and layout are separate. Everything the site says lives in `content/` as
+YAML or Markdown; every page is a *view* over that data. The previous Canva site
+had the three Pillars typed out in three different places, so any edit meant
+hunting down every copy. Here a pillar exists once, and the Home summary card,
+the pillar detail page, and every post tagged with it all read from that one
+record.
 
-## Learn More
+**If you find yourself typing the same sentence into a second file, stop** — put
+it in `content/` and read it from both places.
 
-To learn more about Next.js, take a look at the following resources:
+## Structure
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```
+content/                  Single source of truth — edited by hand or via /admin
+  org/profile.yaml          About Us copy, boilerplates, per-page intro text
+  settings/site.yaml        Slogan, contact, socials, primary CTA
+  pillars/                  The 3 pillars (fixed set)
+  people/                   Members — one list, filtered by role
+  programs/
+  resources/                Learning Resource Materials (LRMs)
+  posts/                    Blog/Updates, Markdown + frontmatter
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+src/
+  app/                    Routes (App Router)
+  components/
+    layout/                 SiteHeader, SiteFooter, HeroBanner
+    ui/                     Section and other primitives
+    content/                Content-shaped components (PostCard, PersonCard, …)
+  lib/
+    content/                Server-only loaders + the TypeScript content model
+    navigation.ts           Static nav config (safe for Client Components)
 
-## Deploy on Vercel
+public/
+  admin/                  Sveltia CMS (config.yml + entry page)
+  logo/                   Brand logos, including generated white/reverse variants
+docs/
+  CMS.md                  CMS setup, publishing flow, editorial rules
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### Conventions
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- **`src/lib/content` is server-only.** It uses `node:fs`, so it must never be
+  imported from a file with `"use client"`. Client components read
+  `src/lib/navigation.ts` instead.
+- **Files prefixed with `_` are templates** and are skipped by the loaders, so
+  placeholder records never reach the live site.
+- **Design tokens live in `src/app/globals.css`.** Never hardcode a hex value in
+  a component. Two greens exist deliberately: `--color-primary-dark` (`#053301`,
+  the logo green, for text and marks) and `--color-site-theme` (`#054105`, the
+  design plan's Deep Forest Green, for large surfaces like the footer).
+- **Every page needs a `<HeroBanner>`.** The header is fixed and transparent at
+  the top of the page, so it relies on the hero to supply a dark surface and to
+  reserve its height. A page without one will have content slide underneath.
+
+## Deployment
+
+Vercel. Pushes to `staging` deploy a preview; `main` is production. CMS edits
+commit to `staging` — see [docs/CMS.md](docs/CMS.md).

@@ -1,0 +1,36 @@
+# Site-wide chrome: the strings and links the header and footer render.
+# Editable in Sveltia CMS under Settings → Site.
+
+name: EnWild
+legal_name: Alliance for the Conservation of Enigmatic Wildlife
+
+# LOCKED STRING — the brand guide requires the slogan appear unaltered.
+# Do not reword, recase, or repunctuate. It is not editable copy.
+slogan: Every Species Matters. Every Voice Counts.
+
+contact:
+  email: acenigmaticwildlife@gmail.com
+  # TODO: confirm whether a mailing address / region should be public.
+  location: Philippines
+
+socials:
+  - platform: facebook
+    label: Facebook
+    url: https://www.facebook.com/acenigmaticwildlife
+  - platform: instagram
+    label: Instagram
+    url: https://www.instagram.com/enigmaticwildlifeph/
+  - platform: email
+    label: Email
+    url: mailto:acenigmaticwildlife@gmail.com
+
+# Primary CTA repeated in the hero and the footer's get-involved band.
+# TODO: confirm the Facebook group URL — the Canva site's "Be Part of the
+# Advocacy" button pointed at a group, not the page above.
+primary_cta:
+  label: Be Part of the Advocacy
+  url: https://www.facebook.com/acenigmaticwildlife
+
+# QR codes shown in the footer (brand guide lists them as footer furniture).
+# Drop the images into /public/images/qr/ and fill in the paths.
+qr_codes: []

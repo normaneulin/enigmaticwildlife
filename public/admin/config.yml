@@ -1,0 +1,278 @@
+# Sveltia CMS configuration.
+#
+# Sveltia is a drop-in replacement for Decap/Netlify CMS: it commits directly to
+# this Git repository, so `content/` stays the single source of truth and every
+# edit is a reviewable commit. No database, no separate backend to run.
+#
+# The field lists below MUST stay in sync with src/lib/content/types.ts — the CMS
+# writes the files the site reads.
+
+backend:
+  name: github
+  repo: normaneulin/enwild-website
+  # Editors publish to `staging`; promote to `main` with a PR when the site is
+  # ready to go live. Change to `main` for direct-to-production editing.
+  branch: staging
+  # GitHub OAuth relay. Vercel can't do the OAuth handshake on its own, so this
+  # points at a small external authenticator.
+  # SETUP REQUIRED — see docs/CMS.md. Until this is filled in, login will fail.
+  base_url: "" # e.g. https://enwild-cms-auth.<subdomain>.workers.dev
+  auth_endpoint: auth
+
+# Local editing without auth: run `npx sveltia-cms-proxy-server` in one terminal
+# and `npm run dev` in another, then open http://localhost:3000/admin
+local_backend: true
+
+media_folder: public/images
+public_folder: /images
+
+collections:
+  # --- Updates / blog -------------------------------------------------------
+  - name: posts
+    label: Updates
+    label_singular: Update
+    description: >-
+      Stories, articles, and campaigns. Every post must be tagged with exactly
+      one pillar — that tag is what makes it appear on the matching pillar page.
+    folder: content/posts
+    media_folder: /public/images/posts
+    public_folder: /images/posts
+    create: true
+    extension: md
+    format: yaml-frontmatter
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    identifier_field: title
+    sortable_fields: [date, title]
+    fields:
+      - { name: title, label: Title, widget: string }
+      - { name: slug, label: URL slug, widget: string, hint: "Lowercase words separated by hyphens. Becomes /updates/<slug>." }
+      - name: pillar
+        label: Pillar
+        widget: select
+        options:
+          - { label: "Pillar 1 — Underappreciated Wildlife & Habitats", value: pillar-1 }
+          - { label: "Pillar 2 — Empowered Youth for Conservation", value: pillar-2 }
+          - { label: "Pillar 3 — Participatory Environmental Action", value: pillar-3 }
+      - { name: date, label: Date, widget: datetime, format: "YYYY-MM-DD", date_format: "YYYY-MM-DD", time_format: false }
+      - { name: author, label: Author, widget: relation, collection: people, search_fields: [name], value_field: id, display_fields: [name], required: false, hint: "Pulls the byline from the Members list — don't retype credentials." }
+      - { name: cover_image, label: Cover image, widget: image, required: false }
+      - { name: tags, label: Tags, widget: list, default: [], required: false }
+      - { name: excerpt, label: Excerpt, widget: text, hint: "One line. Used on cards and in social captions." }
+      - { name: status, label: Status, widget: select, options: [draft, published], default: draft }
+      - name: external_links
+        label: Cross-posts
+        widget: object
+        collapsed: true
+        required: false
+        fields:
+          - { name: facebook, label: Facebook URL, widget: string, required: false }
+          - { name: instagram, label: Instagram URL, widget: string, required: false }
+      - { name: body, label: Body, widget: markdown }
+
+  # --- Pillars --------------------------------------------------------------
+  # create/delete are off: there are exactly three, permanently.
+  - name: pillars
+    label: Pillars
+    folder: content/pillars
+    create: false
+    delete: false
+    extension: yaml
+    format: yaml
+    identifier_field: name
+    fields:
+      - { name: id, label: ID, widget: string, readonly: true }
+      - { name: order, label: Order, widget: number, value_type: int }
+      - { name: name, label: Name, widget: string }
+      - { name: short_name, label: Short name, widget: string, hint: "Used in tight spaces like filter chips." }
+      - { name: short_description, label: Short description, widget: text, hint: "One sentence — this is what Home's summary card shows." }
+      - { name: long_description, label: Full description, widget: markdown, required: false }
+      - { name: icon, label: Icon, widget: image, required: false }
+      - { name: color_accent, label: Accent color, widget: string }
+
+  # --- People ---------------------------------------------------------------
+  - name: people
+    label: Members
+    label_singular: Member
+    description: >-
+      One list for everyone. The Members page renders its three sections by
+      filtering on Role — there is no separate list per section.
+    folder: content/people
+    media_folder: /public/images/people
+    public_folder: /images/people
+    create: true
+    extension: yaml
+    format: yaml
+    identifier_field: name
+    slug: "{{slug}}"
+    fields:
+      - { name: id, label: ID, widget: string, hint: "Lowercase-hyphenated. Must match the filename. Posts reference this for bylines." }
+      - { name: name, label: Full name, widget: string }
+      - name: role
+        label: Role
+        widget: select
+        options:
+          - { label: Advisory Council, value: advisory_council }
+          - { label: Core Leadership, value: core_leadership }
+          - { label: Committee Member, value: committee_member }
+      - { name: committee, label: Committee, widget: string, required: false, hint: "Only for committee members. e.g. Media and Communications" }
+      - { name: title, label: Position / profession, widget: string, required: false }
+      - { name: bio, label: Bio, widget: text, required: false }
+      - { name: photo, label: Photo, widget: image, required: false }
+      - name: socials
+        label: Socials
+        widget: object
+        collapsed: true
+        required: false
+        fields:
+          - { name: facebook, label: Facebook, widget: string, required: false }
+          - { name: instagram, label: Instagram, widget: string, required: false }
+          - { name: linkedin, label: LinkedIn, widget: string, required: false }
+      - { name: order, label: Order, widget: number, value_type: int, default: 1 }
+
+  # --- Programs -------------------------------------------------------------
+  - name: programs
+    label: Programs
+    label_singular: Program
+    folder: content/programs
+    create: true
+    extension: yaml
+    format: yaml
+    identifier_field: title
+    slug: "{{slug}}"
+    fields:
+      - { name: title, label: Title, widget: string }
+      - { name: slug, label: URL slug, widget: string }
+      - { name: type, label: Type, widget: select, options: [partnership, internal] }
+      - name: pillar
+        label: Pillars served
+        widget: select
+        multiple: true
+        options: [pillar-1, pillar-2, pillar-3]
+      - { name: status, label: Status, widget: select, options: [ongoing, completed, upcoming] }
+      - { name: partner_org, label: Partner organization, widget: string, required: false }
+      - { name: summary, label: Summary, widget: text }
+      - { name: description, label: Full description, widget: markdown, required: false }
+      - { name: cover_image, label: Cover image, widget: image, required: false }
+      - { name: featured, label: Show on Home, widget: boolean, default: false }
+      - name: links
+        label: Links
+        widget: list
+        required: false
+        fields:
+          - { name: label, label: Label, widget: string }
+          - { name: url, label: URL, widget: string }
+
+  # --- Learning Resource Materials -----------------------------------------
+  - name: resources
+    label: Learning Resources
+    label_singular: Learning Resource
+    folder: content/resources
+    create: true
+    extension: yaml
+    format: yaml
+    identifier_field: title
+    slug: "{{slug}}"
+    fields:
+      - { name: title, label: Title, widget: string }
+      - { name: slug, label: URL slug, widget: string }
+      - name: category
+        label: Category
+        widget: select
+        options:
+          - { label: Organizational Documents, value: organizational }
+          - { label: Conservation & Advocacy, value: conservation_advocacy }
+      - { name: status, label: Status, widget: select, options: [published, in_refinement, coming_soon] }
+      - { name: description, label: Description, widget: text, required: false }
+      - { name: file_url, label: File, widget: file, required: false }
+      - { name: order, label: Order, widget: number, value_type: int, default: 1 }
+
+  # --- Singletons -----------------------------------------------------------
+  - name: settings
+    label: Settings
+    files:
+      - name: org
+        label: Organization Profile
+        file: content/org/profile.yaml
+        description: >-
+          The canonical About Us content plus the intro copy each page uses.
+          Edit once here; every page that shows it updates.
+        fields:
+          - { name: definition, label: Definition, widget: text }
+          - { name: vision, label: Vision, widget: text }
+          - { name: mission, label: Mission, widget: text }
+          - { name: advocacy_statement, label: Advocacy statement, widget: text }
+          - { name: founding_date, label: Founding date, widget: datetime, format: "YYYY-MM-DD", date_format: "YYYY-MM-DD", time_format: false }
+          - name: founders
+            label: Founders
+            widget: list
+            fields:
+              - { name: name, label: Name, widget: string }
+              - { name: title, label: Title, widget: string }
+          - { name: history, label: History, widget: markdown }
+          - name: history_translations
+            label: History translations
+            widget: object
+            collapsed: true
+            required: false
+            fields:
+              - { name: fil, label: Filipino, widget: markdown, required: false }
+              - { name: hil, label: Hiligaynon, widget: markdown, required: false }
+          - name: founder_quote
+            label: Founder quote
+            widget: object
+            required: false
+            fields:
+              - { name: text, label: Quote, widget: text, required: false }
+              - { name: attribution, label: Attribution, widget: string, required: false }
+          - name: boilerplates
+            label: Boilerplates
+            widget: object
+            hint: "The three approved org descriptions from the Brand Identity Guide. Never write a new one — request the length you need."
+            fields:
+              - { name: short, label: "Short (~35 words)", widget: text, required: false }
+              - { name: medium, label: "Medium (~70 words)", widget: text, required: false }
+              - { name: long, label: "Long (~100 words)", widget: text, required: false }
+          - { name: pillars_intro, label: Pillars page intro, widget: text }
+          - { name: pillars_outro, label: Pillars page closing, widget: text }
+          - { name: programs_intro, label: Programs page intro, widget: text }
+          - { name: members_intro, label: Members page intro, widget: text }
+          - { name: resources_intro, label: Resources page intro, widget: text }
+          - { name: updates_intro, label: Updates page intro, widget: text }
+
+      - name: site
+        label: Site
+        file: content/settings/site.yaml
+        description: Header, footer, contact details, and social links.
+        fields:
+          - { name: name, label: Short name, widget: string }
+          - { name: legal_name, label: Full legal name, widget: string }
+          - name: slogan
+            label: Slogan
+            widget: string
+            hint: "LOCKED — the brand guide requires this appear unaltered. Do not edit."
+          - name: contact
+            label: Contact
+            widget: object
+            fields:
+              - { name: email, label: Email, widget: string }
+              - { name: location, label: Location, widget: string, required: false }
+          - name: socials
+            label: Social accounts
+            widget: list
+            fields:
+              - { name: platform, label: Platform, widget: select, options: [facebook, instagram, email] }
+              - { name: label, label: Label, widget: string }
+              - { name: url, label: URL, widget: string }
+          - name: primary_cta
+            label: Primary call to action
+            widget: object
+            fields:
+              - { name: label, label: Button label, widget: string }
+              - { name: url, label: URL, widget: string }
+          - name: qr_codes
+            label: Footer QR codes
+            widget: list
+            required: false
+            fields:
+              - { name: label, label: Label, widget: string }
+              - { name: image, label: Image, widget: image }
