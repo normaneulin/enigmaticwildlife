@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>EnWild Content Manager</title>
+    <link rel="icon" href="/favicon.ico" />
+    <!-- Sveltia reads its config from here rather than guessing a relative path. -->
+    <link
+      href="/admin/config.yml"
+      type="application/yaml"
+      rel="cms-config-url"
+    />
+  </head>
+  <body>
+    <!--
+      Deliberately a plain static file in /public rather than an App Router page:
+      Sveltia mounts itself into <body> and owns the DOM, which fights React's
+      root. Next.js serves this as-is; next.config.ts rewrites /admin to it.
+    -->
+    <script
+      type="module"
+      src="https://unpkg.com/@sveltia/cms/dist/sveltia-cms.js"
+    ></script>
+  </body>
+</html>

@@ -1,0 +1,291 @@
+/*
+ * Two states, driven by `data-solid` on the header:
+ *   false — transparent over the hero, logo and links reversed to white
+ *   true  — white background, shadow, logo shrinks back to brand green
+ * Everything animates off --header-transition so nothing drifts out of sync.
+ */
+
+.header {
+  position: fixed;
+  inset: 0 0 auto;
+  z-index: var(--z-header);
+  background: transparent;
+  transition:
+    background-color var(--header-transition),
+    box-shadow var(--header-transition);
+}
+
+/* Scrim: hero photos are unpredictable, and a white logo on a bright sky is
+   unreadable. This keeps the transparent state legible without looking like a
+   bar. Fades out as the real background fades in. */
+.header::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    to bottom,
+    rgb(0 0 0 / 45%),
+    rgb(0 0 0 / 0%)
+  );
+  transition: opacity var(--header-transition);
+}
+
+.header[data-solid="true"] {
+  background-color: var(--color-white);
+  box-shadow: 0 1px 0 var(--color-border), 0 6px 24px rgb(5 51 1 / 8%);
+}
+
+.header[data-solid="true"]::before {
+  opacity: 0;
+}
+
+.inner {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  width: 100%;
+  max-width: var(--container-max);
+  margin: 0 auto;
+  padding: 0 var(--container-pad);
+  height: var(--header-height);
+  transition: height var(--header-transition);
+}
+
+.header[data-solid="true"] .inner {
+  height: var(--header-height-scrolled);
+}
+
+/* --- Logo --- */
+
+.logoLink {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.logoStack {
+  position: relative;
+  display: block;
+  height: var(--header-logo-height);
+  aspect-ratio: 2436 / 665;
+  transition: height var(--header-transition);
+}
+
+.header[data-solid="true"] .logoStack {
+  height: var(--header-logo-height-scrolled);
+}
+
+.logo {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  transition: opacity var(--header-transition);
+}
+
+/* White variant over the hero; brand-green variant once the bar goes solid. */
+.logoReverse {
+  opacity: 1;
+  filter: drop-shadow(0 1px 3px rgb(0 0 0 / 35%));
+}
+
+.logoColor {
+  opacity: 0;
+}
+
+.header[data-solid="true"] .logoReverse {
+  opacity: 0;
+}
+
+.header[data-solid="true"] .logoColor {
+  opacity: 1;
+}
+
+/* --- Desktop nav --- */
+
+.desktopNav {
+  display: none;
+}
+
+.navList {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  list-style: none;
+}
+
+.navItem {
+  position: relative;
+}
+
+.navLink {
+  display: inline-block;
+  padding: 10px 14px;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  color: var(--color-white);
+  text-shadow: 0 1px 3px rgb(0 0 0 / 35%);
+  border-radius: 6px;
+  transition:
+    color var(--header-transition),
+    background-color 160ms ease,
+    text-shadow var(--header-transition);
+}
+
+.header[data-solid="true"] .navLink {
+  color: var(--color-primary-dark);
+  text-shadow: none;
+}
+
+.navLink:hover,
+.navLink[aria-current="page"] {
+  background-color: rgb(255 255 255 / 16%);
+}
+
+.header[data-solid="true"] .navLink:hover,
+.header[data-solid="true"] .navLink[aria-current="page"] {
+  background-color: var(--color-surface);
+}
+
+/* --- Dropdowns (CSS-only: hover for pointers, focus-within for keyboards) --- */
+
+.dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  min-width: 260px;
+  padding: 8px;
+  list-style: none;
+  background: var(--color-white);
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+  box-shadow: 0 12px 32px rgb(5 51 1 / 14%);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(6px);
+  transition:
+    opacity 160ms ease,
+    transform 160ms ease,
+    visibility 160ms;
+}
+
+.navItem:hover .dropdown,
+.navItem:focus-within .dropdown {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.dropdownLink {
+  display: block;
+  padding: 9px 12px;
+  font-size: 14px;
+  line-height: 1.35;
+  color: var(--color-primary-dark);
+  border-radius: 6px;
+}
+
+.dropdownLink:hover {
+  background: var(--color-surface);
+}
+
+/* --- Mobile toggle --- */
+
+.menuButton {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  width: 44px;
+  height: 44px;
+  padding: 10px;
+  background: none;
+  border: 0;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.menuBar {
+  display: block;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--color-white);
+  box-shadow: 0 1px 2px rgb(0 0 0 / 30%);
+  transition:
+    background-color var(--header-transition),
+    transform 220ms ease,
+    opacity 160ms ease,
+    box-shadow var(--header-transition);
+}
+
+.header[data-solid="true"] .menuBar {
+  background: var(--color-primary-dark);
+  box-shadow: none;
+}
+
+/* Hamburger → X */
+.header[data-menu-open="true"] .menuBar:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+
+.header[data-menu-open="true"] .menuBar:nth-child(2) {
+  opacity: 0;
+}
+
+.header[data-menu-open="true"] .menuBar:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
+/* --- Mobile panel --- */
+
+.mobilePanel {
+  position: relative;
+  max-height: calc(100dvh - var(--header-height-scrolled));
+  overflow-y: auto;
+  padding: 8px var(--container-pad) 32px;
+  background: var(--color-white);
+  border-top: 1px solid var(--color-border);
+}
+
+.mobileList,
+.mobileSubList {
+  list-style: none;
+}
+
+.mobileLink {
+  display: block;
+  padding: 14px 0;
+  font-family: var(--font-heading);
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--color-primary-dark);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.mobileSubList {
+  padding: 8px 0 12px 12px;
+  border-left: 2px solid var(--color-surface);
+  margin-left: 2px;
+}
+
+.mobileSubLink {
+  display: block;
+  padding: 8px 0;
+  font-size: 14px;
+  color: var(--color-muted);
+}
+
+@media (min-width: 960px) {
+  .desktopNav {
+    display: block;
+  }
+
+  .menuButton,
+  .mobilePanel {
+    display: none;
+  }
+}

@@ -1,0 +1,65 @@
+.hero {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  isolation: isolate;
+  overflow: hidden;
+  background: var(--color-site-theme);
+  color: var(--color-white);
+  /* Reserves the fixed header's tallest state so the title always clears it. */
+  padding-top: var(--header-height);
+}
+
+.hero[data-size="page"] {
+  min-height: 340px;
+}
+
+.hero[data-size="full"] {
+  min-height: min(88svh, 780px);
+}
+
+.image {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  object-fit: cover;
+}
+
+/* Darkens the photo so white type and the reversed logo stay readable
+   regardless of what the image looks like. */
+.hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(
+    to bottom,
+    rgb(5 65 5 / 55%),
+    rgb(5 51 1 / 78%)
+  );
+}
+
+.inner {
+  width: 100%;
+  max-width: var(--container-max);
+  margin: 0 auto;
+  padding: 48px var(--container-pad) 56px;
+}
+
+.title {
+  max-width: 20ch;
+  color: var(--color-white);
+  margin-bottom: 0;
+}
+
+.hero[data-size="full"] .title {
+  font-size: clamp(34px, 6vw, 64px);
+}
+
+.subtitle {
+  margin-top: 16px;
+  max-width: 56ch;
+  font-size: clamp(15px, 1.6vw, 18px);
+  line-height: 1.6;
+  color: rgb(255 255 255 / 86%);
+}

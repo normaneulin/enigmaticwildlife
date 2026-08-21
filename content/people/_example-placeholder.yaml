@@ -1,0 +1,18 @@
+# Template record. Members are "to be supplied soon" per the design plan, so the
+# collection is stood up now with one placeholder — page templates can be built
+# against a real shape and no rework is needed when names arrive.
+# Delete this file once real records exist.
+id: example-placeholder
+name: Name Surname
+# advisory_council | core_leadership | committee_member
+role: core_leadership
+# Only when role is committee_member. e.g. Media and Communications
+committee: ""
+title: Position or Profession
+bio: ""
+photo: ""
+socials:
+  facebook: ""
+  instagram: ""
+  linkedin: ""
+order: 1
