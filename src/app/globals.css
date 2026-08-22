@@ -129,6 +129,24 @@ svg {
   outline-offset: 3px;
 }
 
+/* Base styles for plain content lists (markdown/rich text).
+   Prevents bullets from overflowing the container edge on mobile. */
+ul:not([class]),
+ol:not([class]) {
+  padding-left: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+ul:not([class]) li,
+ol:not([class]) li {
+  margin-bottom: 0.5rem;
+}
+
+ul:not([class]) li:last-child,
+ol:not([class]) li:last-child {
+  margin-bottom: 0;
+}
+
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
 
