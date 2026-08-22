@@ -40,11 +40,24 @@
   --header-height-scrolled: 68px;
   --header-logo-height: 52px;
   --header-logo-height-scrolled: 38px;
-  --header-transition: 320ms cubic-bezier(0.4, 0, 0.2, 1);
+  --header-transition: 500ms ease-in-out;
   --z-header: 100;
 
   --background: var(--color-white);
   --foreground: var(--color-primary-dark);
+}
+
+/* Phones. The desktop bar height and its ~190px-wide logo lockup leave no room
+   for the donate CTA and the menu toggle, so the whole header geometry steps
+   down here rather than each component guessing at it. */
+@media (max-width: 599px) {
+  :root {
+    --container-pad: 20px;
+    --header-height: 76px;
+    --header-height-scrolled: 64px;
+    --header-logo-height: 40px;
+    --header-logo-height-scrolled: 32px;
+  }
 }
 
 *,
@@ -109,10 +122,11 @@ svg {
   max-width: 100%;
 }
 
+/* No border-radius here: the ring should follow whatever shape the element
+   already has, or every pill button gets a rectangle drawn around it. */
 :focus-visible {
   outline: 2px solid var(--color-green-teal);
   outline-offset: 3px;
-  border-radius: 2px;
 }
 
 @media (prefers-reduced-motion: reduce) {

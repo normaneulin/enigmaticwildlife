@@ -11,6 +11,19 @@ import {
 } from "@/lib/content";
 
 /**
+ * Cross-faded behind the home hero, in this order. Listed rather than globbed so
+ * the sequence is reviewable and adding a file to the folder is not silently a
+ * publishing action.
+ */
+const HERO_IMAGES = [
+  "/images/hero_section/series/landscape1.webp",
+  "/images/hero_section/series/landscape2.webp",
+  "/images/hero_section/series/landscape3.webp",
+  "/images/hero_section/series/landscape4.webp",
+  "/images/hero_section/series/landscape5.webp",
+];
+
+/**
  * Home is all teasers. Per the architecture doc §6.1 it must never hold the full
  * version of anything — every block links out to the page that owns the content.
  */
@@ -26,16 +39,16 @@ export default function HomePage() {
       {/* 1. Hero */}
       <HeroBanner
         size="full"
+        eyebrow={site.legal_name}
         title={site.slogan}
         subtitle={org.definition}
-        image="/images/hero_section/landscape1.webp"
-      >
-        <p>
-          <a href={site.primary_cta.url} target="_blank" rel="noopener noreferrer">
-            {site.primary_cta.label} &rarr;
-          </a>
-        </p>
-      </HeroBanner>
+        images={HERO_IMAGES}
+        primaryCta={{
+          label: site.primary_cta.label,
+          url: site.primary_cta.url,
+          external: true,
+        }}
+      />
 
       {/* 2. About teaser — the ~35-word boilerplate, not new copy. */}
       <Section title="Who we are" intro={org.boilerplates.short || org.definition}>
